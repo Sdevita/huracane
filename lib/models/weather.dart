@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 
 class Weather extends Equatable {
   WeatherData current;
+  DailyForecast dailyForecast;
 
-  Weather({this.current});
+  Weather({this.current, this.dailyForecast});
 
   @override
-  // TODO: implement props
-  List<Object> get props => null;
+  List<Object> get props => [current];
 }
 
 class WeatherData extends Equatable {
@@ -29,8 +29,26 @@ class WeatherData extends Equatable {
   double visibility;
   double ozone;
 
+  WeatherData(
+      {this.summary,
+      this.icon,
+      this.windGust,
+      this.visibility,
+      this.uvIndex,
+      this.ozone,
+      this.cloudCover,
+      this.windBearing,
+      this.windSpeed,
+      this.pressure,
+      this.humidity,
+      this.dewPoint,
+      this.apparentTemperature,
+      this.temperature,
+      this.precipProbability,
+      this.precipIntensity,
+      this.time});
+
   @override
-  // TODO: implement props
   List<Object> get props => [
         time,
         summary,
@@ -50,4 +68,15 @@ class WeatherData extends Equatable {
         visibility,
         ozone
       ];
+}
+
+class DailyForecast extends Equatable {
+  String summary;
+  String icon;
+  List<WeatherData> dailyForecast;
+
+  DailyForecast({this.summary, this.icon, this.dailyForecast});
+
+  @override
+  List<Object> get props => [summary, icon, dailyForecast];
 }
