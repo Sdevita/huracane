@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:huracan/repositories/repositories.dart';
+import 'package:huracan/network/repositories/repositories.dart';
 import 'package:huracan/views/home.dart';
 import 'blocs/blocs.dart';
 

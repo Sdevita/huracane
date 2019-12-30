@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:huracan/models/models.dart';
+import 'package:huracan/network/responses/responses.dart';
 
 class DarkWeatherApiClient{
   static const baseUrl = ' https://api.darksky.net/';
@@ -10,10 +11,10 @@ class DarkWeatherApiClient{
 
   DarkWeatherApiClient({@required this.httpClient}) : assert(httpClient != null);
 
-  Future<Weather> forecastRequest(LatLng location) async {
+  Future<DarkWeatherResponse> forecastRequest(LatLng location) async {
     final latitude = location.latitude;
     final longitude = location.longitude;
-    final weatherUrl = '$baseUrl/forecast/$apiKey/$latitude,$longitude';
+    final weatherUrl = '$baseUrl/forecast/$apiKey/$latitude,$longitude?units=auto';
     final weatherResponse = await this.httpClient.get(weatherUrl);
 
     if(weatherResponse.statusCode != 200) {
@@ -21,6 +22,6 @@ class DarkWeatherApiClient{
     }
 
     final weatherJson = jsonDecode(weatherResponse.body);
-    return Weather.fromJson(weatherJson);
+    return DarkWeatherResponse.fromJson(weatherJson);
   }
 }

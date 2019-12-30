@@ -3,7 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:huracan/models/lat_lng.dart';
 import 'package:huracan/models/models.dart';
-import 'package:huracan/repositories/repositories.dart';
+import 'package:huracan/network/repositories/repositories.dart';
+import 'package:huracan/network/responses/base_response.dart';
 
 abstract class WeatherEvent extends Equatable {
   const WeatherEvent();
@@ -64,7 +65,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     if (event is FetchWeather) {
       yield WeatherLoading();
       try {
-        final Weather weather = await weatherRepository.getWeather(event.position);
+        final weatherResponse = await weatherRepository.getWeather(event.position);
+        final weather = _createWeatherModel(weatherResponse);
         yield WeatherLoaded(weather: weather);
       } catch (_) {
         yield WeatherError();
@@ -72,11 +74,16 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     }
     if (event is RefreshWeather) {
       try {
-        final Weather weather = await weatherRepository.getWeather(event.position);
+        final weatherResponse = await weatherRepository.getWeather(event.position);
+        final weather = _createWeatherModel(weatherResponse);
         yield WeatherLoaded(weather: weather);
       } catch (_) {
         yield state;
       }
     }
+  }
+
+  Weather _createWeatherModel(BaseResponse response){
+
   }
 }
