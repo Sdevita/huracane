@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:huracan/app.dart';
@@ -15,9 +15,8 @@ import '../lib/bloc_delegate.dart';
 void main() {
   final WeatherRepository weatherRepository = RepoDark(
     weatherApiClient: DarkWeatherApiClient(
-      httpClient: MockClient((request) async {
-        final file = new File('test_resources/weather.json');
-        final res = json.decode(await file.readAsString());
+      httpClient: MockClient((request) async{
+        final res = await loadAsset();
         return Response(res, 200);
       }),
     ),
@@ -26,4 +25,8 @@ void main() {
   runApp(App(
     weatherRepository: weatherRepository,
   ));
+}
+
+Future<String> loadAsset() async {
+  return await rootBundle.loadString('test_resources/weather.json');
 }

@@ -11,7 +11,7 @@ class Weather extends Equatable {
 }
 
 class WeatherData extends Equatable {
-  String time;
+  int time;
   String summary;
   String icon;
   double precipIntensity;

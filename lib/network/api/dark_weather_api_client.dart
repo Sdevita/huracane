@@ -5,7 +5,7 @@ import 'package:huracan/models/models.dart';
 import 'package:huracan/network/responses/responses.dart';
 
 class DarkWeatherApiClient{
-  static const baseUrl = ' https://api.darksky.net/';
+  static const baseUrl = 'https://api.darksky.net';
   static const apiKey = '0361cbaa3b6e1ce67ea5d4e610864cb3';
   final http.Client httpClient;
 

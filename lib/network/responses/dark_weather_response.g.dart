@@ -22,23 +22,23 @@ Map<String, dynamic> _$DarkWeatherResponseToJson(
 
 WeatherObj _$WeatherObjFromJson(Map<String, dynamic> json) {
   return WeatherObj(
-    time: json['time'] as String,
+    time: json['time'] as int,
     summary: json['summary'] as String,
     icon: json['icon'] as String,
-    precipIntensity: (json['precipIntensity'] as num).toDouble(),
-    precipProbability: (json['precipProbability'] as num).toDouble(),
-    temperature: (json['temperature'] as num).toDouble(),
-    apparentTemperature: (json['apparentTemperature'] as num).toDouble(),
-    dewPoint: (json['dewPoint'] as num).toDouble(),
-    humidity: (json['humidity'] as num).toDouble(),
-    pressure: (json['pressure'] as num).toDouble(),
-    windSpeed: (json['windSpeed'] as num).toDouble(),
+    precipIntensity: (json['precipIntensity'] as num)?.toDouble(),
+    precipProbability: (json['precipProbability'] as num)?.toDouble(),
+    temperature: (json['temperature'] as num)?.toDouble(),
+    apparentTemperature: (json['apparentTemperature'] as num)?.toDouble(),
+    dewPoint: (json['dewPoint'] as num)?.toDouble(),
+    humidity: (json['humidity'] as num)?.toDouble(),
+    pressure: (json['pressure'] as num)?.toDouble(),
+    windSpeed: (json['windSpeed'] as num)?.toDouble(),
     windBearing: json['windBearing'] as int,
-    cloudCover: (json['cloudCover'] as num).toDouble(),
-    ozone: (json['ozone'] as num).toDouble(),
-    uvIndex: (json['uvIndex'] as num).toDouble(),
-    visibility: (json['visibility'] as num).toDouble(),
-    windGust: (json['windGust'] as num).toDouble(),
+    cloudCover: (json['cloudCover'] as num)?.toDouble(),
+    ozone: (json['ozone'] as num)?.toDouble(),
+    uvIndex: (json['uvIndex'] as num)?.toDouble(),
+    visibility: (json['visibility'] as num)?.toDouble(),
+    windGust: (json['windGust'] as num)?.toDouble(),
   )
     ..temperatureMin = (json['temperatureMin'] as num)?.toDouble()
     ..temperatureMinTime = json['temperatureMinTime'] as int

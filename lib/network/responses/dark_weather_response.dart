@@ -17,22 +17,36 @@ class DarkWeatherResponse extends BaseResponse {
 
 @JsonSerializable(nullable: false)
 class WeatherObj {
-  String time;
+  int time;
   String summary;
   String icon;
+  @JsonKey(nullable: true)
   double precipIntensity;
+  @JsonKey(nullable: true)
   double precipProbability;
+  @JsonKey(nullable: true)
   double temperature;
+  @JsonKey(nullable: true)
   double apparentTemperature;
+  @JsonKey(nullable: true)
   double dewPoint;
+  @JsonKey(nullable: true)
   double humidity;
+  @JsonKey(nullable: true)
   double pressure;
+  @JsonKey(nullable: true)
   double windSpeed;
+  @JsonKey(nullable: true)
   double windGust;
+  @JsonKey(nullable: true)
   int windBearing;
+  @JsonKey(nullable: true)
   double cloudCover;
+  @JsonKey(nullable: true)
   double uvIndex;
+  @JsonKey(nullable: true)
   double visibility;
+  @JsonKey(nullable: true)
   double ozone;
   @JsonKey(nullable: true)
   double temperatureMin;
