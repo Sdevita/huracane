@@ -13,13 +13,15 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        return MaterialApp(
+    return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, themeState) {
+      return MaterialApp(
           title: 'Flutter Weather',
+          theme: themeState.theme,
           home: BlocProvider(
             create: (BuildContext context) =>
                 WeatherBloc(weatherRepository: weatherRepository),
             child: Home(),
-          )
-        );
+          ));
+    });
   }
 }
