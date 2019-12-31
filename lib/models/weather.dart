@@ -10,10 +10,24 @@ class Weather extends Equatable {
   List<Object> get props => [current];
 }
 
+enum WeatherCondition{
+  snow,
+  rain,
+  sleet,
+  wind,
+  fog,
+  cloudy,
+  clearDay,
+  clearNight,
+  partlyCloudyDay,
+  partlyCloudyNight,
+  unknown,
+}
+
 class WeatherData extends Equatable {
   int time;
   String summary;
-  String icon;
+  WeatherCondition condition;
   double precipIntensity;
   double precipProbability;
   double temperature;
@@ -31,7 +45,7 @@ class WeatherData extends Equatable {
 
   WeatherData(
       {this.summary,
-      this.icon,
+      this.condition,
       this.windGust,
       this.visibility,
       this.uvIndex,
@@ -52,7 +66,7 @@ class WeatherData extends Equatable {
   List<Object> get props => [
         time,
         summary,
-        icon,
+        condition,
         precipIntensity,
         precipProbability,
         temperature,

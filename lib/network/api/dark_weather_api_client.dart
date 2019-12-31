@@ -22,6 +22,7 @@ class DarkWeatherApiClient{
     }
 
     final weatherJson = jsonDecode(weatherResponse.body);
+    print("Response /from forecast : $weatherJson");
     return DarkWeatherResponse.fromJson(weatherJson);
   }
 }

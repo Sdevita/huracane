@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_lottie/flutter_lottie.dart';
 import 'package:huracan/blocs/weather_bloc.dart';
 import 'package:huracan/models/models.dart';
+import 'package:huracan/views/custom_widget/custom_widgets.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,7 +10,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  LottieController controller;
 
   @override
   void initState() {
@@ -30,28 +29,18 @@ class _HomeState extends State<Home> {
           return Center(child: CircularProgressIndicator());
         }
         if (state is WeatherLoaded) {
-          final summary = state.weather.current.summary;
-          return Center(
-              child: SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: LottieView.fromFile(
-                      filePath: "resources/animations/day_storm_anim.json",
-                      autoPlay: true,
-                      loop: true,
-                      onViewCreated: onViewCreatedFile)));
+          final condition = state.weather.current.condition;
+          final temperature = state.weather.current.temperature;
+          return Column(
+            children: <Widget>[
+              Center(
+                  child: WeatherIcon(width: 200,height: 200,weatherCondition: condition,)),
+              Text("Temperatura: $temperature")
+            ],
+          );
         }
         return Center(child: Text("Error"));
       }),
     );
-  }
-
-  void onViewCreatedFile(LottieController controller) {
-    this.controller = controller;
-    // Listen for when the playback completes
-    this.controller.onPlayFinished.listen((bool animationFinished) {
-      print("Playback complete. Was Animation Finished? " +
-          animationFinished.toString());
-    });
   }
 }

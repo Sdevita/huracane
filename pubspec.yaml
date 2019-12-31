@@ -49,7 +49,21 @@ flutter:
    - test_resources/weather.json
    - resources/animations/sunny_anim.json
    - resources/animations/day_storm_anim.json
-  #  - images/a_dot_ham.jpeg
+   - resources/animations/cloudy_night.json
+   - resources/animations/foggy.json
+   - resources/animations/mist.json
+   - resources/animations/night.json
+   - resources/animations/partly_cloudy.json
+   - resources/animations/partly_shower.json
+   - resources/animations/rainy_night.json
+   - resources/animations/snow.json
+   - resources/animations/snow_night.json
+   - resources/animations/snow_sunny.json
+   - resources/animations/storm.json
+   - resources/animations/storm_showers_day.json
+   - resources/animations/thunder.json
+   - resources/animations/windy.json
+   - resources/animations/generic_error.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

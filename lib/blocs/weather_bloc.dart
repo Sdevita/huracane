@@ -108,7 +108,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         cloudCover: weatherObj?.cloudCover,
         dewPoint: weatherObj?.dewPoint,
         humidity: weatherObj?.humidity,
-        icon: weatherObj?.icon,
+        condition: _mapWeatherCondition(weatherObj?.icon),
         ozone: weatherObj?.ozone,
         precipIntensity: weatherObj?.precipIntensity,
         precipProbability: weatherObj?.precipIntensity,
@@ -121,5 +121,23 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         windBearing: weatherObj?.windSpeed,
         windGust: weatherObj?.windGust,
         windSpeed: weatherObj?.windSpeed);
+  }
+
+  WeatherCondition _mapWeatherCondition(String icon){
+    WeatherCondition condition;
+    switch(icon){
+      case "clear-day": condition = WeatherCondition.clearDay; break;
+      case "clear-night": condition = WeatherCondition.clearNight; break;
+      case "rain": condition = WeatherCondition.rain; break;
+      case "snow": condition = WeatherCondition.snow; break;
+      case "sleet": condition = WeatherCondition.sleet; break;
+      case "wind": condition = WeatherCondition.wind; break;
+      case "fog": condition = WeatherCondition.fog; break;
+      case "cloudy": condition = WeatherCondition.cloudy; break;
+      case "partly-cloudy-day": condition = WeatherCondition.partlyCloudyDay; break;
+      case "partly-cloudy-night": condition = WeatherCondition.partlyCloudyNight; break;
+      default: condition = WeatherCondition.unknown;
+    }
+    return condition;
   }
 }
