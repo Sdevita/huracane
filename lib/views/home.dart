@@ -29,6 +29,9 @@ class _HomeState extends State<Home> {
             return Center(child: CircularProgressIndicator());
           }
           if (state is WeatherLoaded) {
+            BlocProvider.of<ThemeBloc>(context).add(
+              WeatherChanged(condition: state.weather.current.condition),
+            );
             final condition = state.weather.current.condition;
             final temperature = state.weather.current.temperature;
             return BlocBuilder<ThemeBloc, ThemeState>(
@@ -44,7 +47,7 @@ class _HomeState extends State<Home> {
                           padding: EdgeInsets.only(top: 20),
                           child: Text(
                             "Today",
-                            style: TextStyle(color: Colors.white, fontSize: 35),
+                            style: TextStyle(color: Colors.white, fontSize: 35, fontFamily: 'Monserrat'),
                           ),
                         )
                       ],
