@@ -16,7 +16,7 @@ void main() {
   final WeatherRepository weatherRepository = RepoDark(
     weatherApiClient: DarkWeatherApiClient(
       httpClient: MockClient((request) async{
-        final res = await loadAsset();
+        final res = await rootBundle.loadString('test_resources/weather.json');
         return Response(res, 200);
       }),
     ),
@@ -25,8 +25,4 @@ void main() {
   runApp(App(
     weatherRepository: weatherRepository,
   ));
-}
-
-Future<String> loadAsset() async {
-  return await rootBundle.loadString('test_resources/weather.json');
 }

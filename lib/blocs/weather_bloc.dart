@@ -58,7 +58,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       : assert(weatherRepository != null);
 
   @override
-  // TODO: implement initialState
   WeatherState get initialState => WeatherEmpty();
 
   @override
@@ -87,19 +86,23 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Weather _createWeatherModel(BaseResponse response) {
-    final currentWeather = _createWeatherDataModel((response as DarkWeatherResponse)?.currently);
-    return Weather(current: currentWeather,);
+    final currentWeather =
+        _createWeatherDataModel((response as DarkWeatherResponse)?.currently);
+    final dailyForecast =
+        _createDailyForecastModel((response as DarkWeatherResponse)?.daily);
+    return Weather(current: currentWeather, dailyForecast: dailyForecast);
   }
 
-  DailyForecast _createDailyForecastModel(Daily daily){
+  DailyForecast _createDailyForecastModel(Daily daily) {
     List<WeatherData> dailyReports = List();
-    daily.data.forEach((obj){
+    daily.data.forEach((obj) {
       dailyReports.add(_createWeatherDataModel(obj));
     });
-    return DailyForecast(summary: daily.summary, icon: daily.icon, dailyForecast: dailyReports);
-}
+    return DailyForecast(
+        summary: daily.summary, icon: daily.icon, dailyForecast: dailyReports);
+  }
 
-  WeatherData _createWeatherDataModel(WeatherObj weatherObj){
+  WeatherData _createWeatherDataModel(WeatherObj weatherObj) {
     return WeatherData(
         apparentTemperature: weatherObj?.apparentTemperature,
         cloudCover: weatherObj?.cloudCover,
