@@ -32,8 +32,9 @@ class _HomeState extends State<Home> {
             BlocProvider.of<ThemeBloc>(context).add(
               WeatherChanged(condition: state.weather.current.condition),
             );
-            final condition = state.weather.current.condition;
-            final temperature = state.weather.current.temperature;
+            final condition = state?.weather?.current?.condition;
+            final temperature = state?.weather?.current?.temperature;
+            final summary = state?.weather?.current?.summary;
             return BlocBuilder<ThemeBloc, ThemeState>(
                 builder: (context, themeState) {
               return GradientContainer(
@@ -47,27 +48,47 @@ class _HomeState extends State<Home> {
                           padding: EdgeInsets.only(top: 20),
                           child: Text(
                             "Today",
-                            style: TextStyle(color: Colors.white, fontSize: 35, fontFamily: 'Monserrat'),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 35,
+                                fontFamily: 'Montserrat'),
                           ),
                         )
                       ],
                     ),
                     SizedBox(
                       width: 100,
-                      height: 50,
+                      height: 30,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Text(
+                          "$summary",
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontFamily: 'Montserrat'),
+                        )),
+                    SizedBox(
+                      width: 100,
+                      height: 30,
                     ),
                     Center(
                         child: WeatherIcon(
-                      width: 200,
-                      height: 200,
+                      width: _getWeatherIconWidth(
+                          MediaQuery.of(context).size.width),
+                      height: MediaQuery.of(context).size.height / 4,
                       weatherCondition: condition,
                     )),
                     Padding(
                         padding: EdgeInsets.only(top: 20),
                         child: Text(
                           "$temperature °C",
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        ))
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontFamily: 'Montserrat'),
+                        )),
                   ],
                 ),
               );
@@ -75,5 +96,11 @@ class _HomeState extends State<Home> {
           }
           return Center(child: Text("Error"));
         }));
+  }
+
+  double _getWeatherIconWidth(double width) {
+    // have to check ios platform, because the weather animation container may stretch in width
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    return isIOS ? width / 2 : width;
   }
 }

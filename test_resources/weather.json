@@ -4,8 +4,8 @@
   "timezone": "Europe/Rome",
   "currently": {
     "time": 1577571545,
-    "summary": "Sereno",
-    "icon": "rain",
+    "summary": "Parzialmente nuvoloso",
+    "icon": "partly-cloudy-day",
     "precipIntensity": 0,
     "precipProbability": 0,
     "temperature": 1.36,

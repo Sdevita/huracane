@@ -36,7 +36,9 @@ class WeatherChanged extends ThemeEvent {
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   @override
   ThemeState get initialState => ThemeState(
-    theme: ThemeData.light(),
+    theme: ThemeData(
+      primaryColor: Colors.lightBlue[800]
+    ),
     color: Colors.lightBlue,
   );
 
@@ -53,18 +55,18 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       case WeatherCondition.clearDay:
         theme = ThemeState(
           theme: ThemeData(
-            primaryColor: Colors.orangeAccent,
+            primaryColor: Colors.amber[800],
           ),
-          color: Colors.yellow,
+          color: Colors.amber,
         );
         break;
       case WeatherCondition.snow:
       case WeatherCondition.sleet:
         theme = ThemeState(
           theme: ThemeData(
-            primaryColor: Colors.lightBlueAccent,
+            primaryColor: Colors.grey[800],
           ),
-          color: Colors.lightBlue,
+          color: Colors.grey,
         );
         break;
       case WeatherCondition.fog:
@@ -72,9 +74,9 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       case WeatherCondition.wind:
         theme = ThemeState(
           theme: ThemeData(
-            primaryColor: Colors.blueGrey,
+            primaryColor: Colors.blueGrey[800],
           ),
-          color: Colors.grey,
+          color: Colors.blueGrey
         );
         break;
       case WeatherCondition.partlyCloudyDay:
@@ -82,7 +84,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       case WeatherCondition.clearNight:
         theme = ThemeState(
           theme: ThemeData(
-            primaryColor: Colors.indigoAccent,
+            primaryColor: Colors.indigo[800],
           ),
           color: Colors.indigo,
         );
@@ -90,7 +92,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       case WeatherCondition.rain:
         theme = ThemeState(
           theme: ThemeData(
-            primaryColor: Colors.deepPurpleAccent,
+            primaryColor: Colors.deepPurple[800],
           ),
           color: Colors.deepPurple,
         );
