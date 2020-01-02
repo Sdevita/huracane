@@ -11,10 +11,10 @@ class DarkWeatherApiClient{
 
   DarkWeatherApiClient({@required this.httpClient}) : assert(httpClient != null);
 
-  Future<DarkWeatherResponse> forecastRequest(LatLng location) async {
+  Future<DarkWeatherResponse> forecastRequest(LatLng location, String isoCountryCode) async {
     final latitude = location.latitude;
     final longitude = location.longitude;
-    final weatherUrl = '$baseUrl/forecast/$apiKey/$latitude,$longitude?units=auto';
+    final weatherUrl = '$baseUrl/forecast/$apiKey/$latitude,$longitude?units=auto&lang=$isoCountryCode';
     final weatherResponse = await this.httpClient.get(weatherUrl);
 
     if(weatherResponse.statusCode != 200) {
@@ -22,7 +22,7 @@ class DarkWeatherApiClient{
     }
 
     final weatherJson = jsonDecode(weatherResponse.body);
-    print("Response /from forecast : $weatherJson");
+    print("Response from $weatherUrl : $weatherJson");
     return DarkWeatherResponse.fromJson(weatherJson);
   }
 }

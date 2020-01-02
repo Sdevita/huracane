@@ -3,11 +3,20 @@ PODS:
   - flutter_lottie (0.0.1):
     - Flutter
     - lottie-ios
+  - geolocator (5.1.5):
+    - Flutter
+  - google_api_availability (2.0.1):
+    - Flutter
+  - location_permissions (2.0.3):
+    - Flutter
   - lottie-ios (2.5.3)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_lottie (from `.symlinks/plugins/flutter_lottie/ios`)
+  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
+  - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
 
 SPEC REPOS:
   trunk:
@@ -18,10 +27,19 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_lottie:
     :path: ".symlinks/plugins/flutter_lottie/ios"
+  geolocator:
+    :path: ".symlinks/plugins/geolocator/ios"
+  google_api_availability:
+    :path: ".symlinks/plugins/google_api_availability/ios"
+  location_permissions:
+    :path: ".symlinks/plugins/location_permissions/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_lottie: c1fd7e92e771209f8b623119646c15201c5e8c87
+  geolocator: 80aba2bb48f8c7dfc5a8b70b9d13fc3edc8399c4
+  google_api_availability: 163b30f802e6148c67f092aa4501c90ddd8eec8d
+  location_permissions: 195ff2a1182fa9029ef3f2653156961ee5a1e40b
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
 
 PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83

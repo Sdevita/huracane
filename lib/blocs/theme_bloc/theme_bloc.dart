@@ -1,37 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:huracan/blocs/theme_bloc/theme_event.dart';
+import 'package:huracan/blocs/theme_bloc/theme_state.dart';
 import 'package:huracan/models/models.dart';
-
-import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
-
-class ThemeState extends Equatable {
-  final ThemeData theme;
-  final MaterialColor color;
-
-  const ThemeState({@required this.theme, @required this.color})
-      : assert(theme != null),
-        assert(color != null);
-
-  @override
-  List<Object> get props => [theme, color];
-}
-
-abstract class ThemeEvent extends Equatable {
-  const ThemeEvent();
-}
-
-class WeatherChanged extends ThemeEvent {
-  final WeatherCondition condition;
-
-  const WeatherChanged({@required this.condition}) : assert(condition != null);
-
-  @override
-  List<Object> get props => [condition];
-}
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   @override

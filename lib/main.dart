@@ -21,5 +21,8 @@ void main() {
     BlocProvider<ThemeBloc>(
       create: (context) => ThemeBloc(),
     ),
-  ], child: App(weatherRepository: weatherRepository)));
+    BlocProvider<WeatherBloc>(
+      create: (context) => WeatherBloc(weatherRepository: weatherRepository),
+    )
+  ], child: App()));
 }

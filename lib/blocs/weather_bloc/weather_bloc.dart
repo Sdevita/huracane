@@ -1,55 +1,13 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:huracan/models/lat_lng.dart';
+import 'package:huracan/blocs/weather_bloc/weather_event.dart';
+import 'package:huracan/blocs/weather_bloc/weather_state.dart';
 import 'package:huracan/models/models.dart';
 import 'package:huracan/network/repositories/repositories.dart';
 import 'package:huracan/network/responses/base_response.dart';
 import 'package:huracan/network/responses/dark_weather_response.dart';
-
-abstract class WeatherEvent extends Equatable {
-  const WeatherEvent();
-}
-
-class FetchWeather extends WeatherEvent {
-  final LatLng position;
-
-  const FetchWeather({@required this.position}) : assert(position != null);
-
-  @override
-  List<Object> get props => [position];
-}
-
-class RefreshWeather extends WeatherEvent {
-  final LatLng position;
-
-  const RefreshWeather({@required this.position}) : assert(position != null);
-
-  @override
-  List<Object> get props => [position];
-}
-
-abstract class WeatherState extends Equatable {
-  const WeatherState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class WeatherEmpty extends WeatherState {}
-
-class WeatherLoading extends WeatherState {}
-
-class WeatherError extends WeatherState {}
-
-class WeatherLoaded extends WeatherState {
-  final Weather weather;
-
-  const WeatherLoaded({@required this.weather}) : assert(weather != null);
-
-  @override
-  List<Object> get props => [weather];
-}
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository weatherRepository;
@@ -66,7 +24,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       yield WeatherLoading();
       try {
         final weatherResponse =
-            await weatherRepository.getWeather(event.position);
+            await weatherRepository.getWeather(event.position, event.isoCountryCode);
         final weather = _createWeatherModel(weatherResponse);
         yield WeatherLoaded(weather: weather);
       } catch (_) {
@@ -76,7 +34,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     if (event is RefreshWeather) {
       try {
         final weatherResponse =
-            await weatherRepository.getWeather(event.position);
+            await weatherRepository.getWeather(event.position, event.isoCountryCode);
         final weather = _createWeatherModel(weatherResponse);
         yield WeatherLoaded(weather: weather);
       } catch (_) {
