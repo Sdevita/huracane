@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:huracan/blocs/weather_bloc/weather_event.dart';
@@ -48,7 +46,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         _createWeatherDataModel((response as DarkWeatherResponse)?.currently);
     final dailyForecast =
         _createDailyForecastModel((response as DarkWeatherResponse)?.daily);
-    return Weather(current: currentWeather, dailyForecast: dailyForecast);
+    final hourlyForecast = _createHourlyForecastModel((response as DarkWeatherResponse)?.hourly);
+    return Weather(current: currentWeather, dailyForecast: dailyForecast, hourlyForecast: hourlyForecast);
   }
 
   DailyForecast _createDailyForecastModel(Daily daily) {
@@ -58,6 +57,15 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     });
     return DailyForecast(
         summary: daily.summary, icon: daily.icon, dailyForecast: dailyReports);
+  }
+
+  HourlyForecast _createHourlyForecastModel(Hourly hourlyList) {
+    List<WeatherData> hourlyReports = List();
+    hourlyList.data.forEach((obj) {
+      hourlyReports.add(_createWeatherDataModel(obj));
+    });
+    return HourlyForecast(
+        summary: hourlyList.summary, icon: hourlyList.icon, hourlyForecast: hourlyReports);
   }
 
   WeatherData _createWeatherDataModel(WeatherObj weatherObj) {

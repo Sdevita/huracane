@@ -7,6 +7,7 @@ part 'dark_weather_response.g.dart';
 @JsonSerializable(nullable: false)
 class DarkWeatherResponse extends BaseResponse {
   WeatherObj currently;
+  Hourly hourly;
   Daily daily;
 
   DarkWeatherResponse(this.daily, this.currently);
@@ -97,4 +98,15 @@ class Daily {
   Daily({this.icon, this.summary, this.data});
   factory Daily.fromJson(Map<String, dynamic> json) => _$DailyFromJson(json);
   Map<String, dynamic> toJson() => _$DailyToJson(this);
+}
+
+@JsonSerializable(nullable: false)
+class Hourly {
+  String summary;
+  String icon;
+  List<WeatherObj> data;
+
+  Hourly({this.icon, this.summary, this.data});
+  factory Hourly.fromJson(Map<String, dynamic> json) => _$HourlyFromJson(json);
+  Map<String, dynamic> toJson() => _$HourlyToJson(this);
 }

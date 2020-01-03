@@ -21,9 +21,10 @@ class GradientContainer extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          stops: [0.6, 0.8, 1.0],
+          stops: [0.3, 0.4, 0.5, 1.0],
           colors: [
             color[700],
+            color[600],
             color[500],
             color[300],
           ],

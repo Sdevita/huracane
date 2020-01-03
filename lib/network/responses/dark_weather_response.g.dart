@@ -10,13 +10,14 @@ DarkWeatherResponse _$DarkWeatherResponseFromJson(Map<String, dynamic> json) {
   return DarkWeatherResponse(
     Daily.fromJson(json['daily'] as Map<String, dynamic>),
     WeatherObj.fromJson(json['currently'] as Map<String, dynamic>),
-  );
+  )..hourly = Hourly.fromJson(json['hourly'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$DarkWeatherResponseToJson(
         DarkWeatherResponse instance) =>
     <String, dynamic>{
       'currently': instance.currently,
+      'hourly': instance.hourly,
       'daily': instance.daily,
     };
 
@@ -92,6 +93,22 @@ Daily _$DailyFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$DailyToJson(Daily instance) => <String, dynamic>{
+      'summary': instance.summary,
+      'icon': instance.icon,
+      'data': instance.data,
+    };
+
+Hourly _$HourlyFromJson(Map<String, dynamic> json) {
+  return Hourly(
+    icon: json['icon'] as String,
+    summary: json['summary'] as String,
+    data: (json['data'] as List)
+        .map((e) => WeatherObj.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$HourlyToJson(Hourly instance) => <String, dynamic>{
       'summary': instance.summary,
       'icon': instance.icon,
       'data': instance.data,

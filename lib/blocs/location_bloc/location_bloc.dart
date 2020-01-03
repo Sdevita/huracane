@@ -17,7 +17,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         final position = lastKnownPosition ?? await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
         final place = await geolocator.placemarkFromPosition(position);
         LocationState state = place.isNotEmpty
-            ? LocationLoaded(position: position, place: place[0].locality, isoCountryCode: place[0].isoCountryCode)
+            ? LocationLoaded(position: position, place: place[0].locality + ", "+ place[0].country, isoCountryCode: place[0].isoCountryCode)
             : LocationError();
         yield state;
       } catch (error) {
