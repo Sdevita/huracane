@@ -70,6 +70,15 @@ flutter:
    - resources/animations/windy.json
    - resources/animations/generic_error.json
    - resources/fonts/Montserrat-Medium.ttf
+   - resources/icons/sun_icon.png
+   - resources/icons/clear_night.png
+   - resources/icons/cloudy.png
+   - resources/icons/fog.png
+   - resources/icons/partly_clody_day.png
+   - resources/icons/partly_clody_night.png
+   - resources/icons/rain.png
+   - resources/icons/sleet.png
+   - resources/icons/snow.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

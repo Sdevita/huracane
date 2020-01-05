@@ -21,8 +21,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     if (event is FetchWeather) {
       yield WeatherLoading();
       try {
-        final weatherResponse =
-            await weatherRepository.getWeather(event.position, event.isoCountryCode);
+        final weatherResponse = await weatherRepository.getWeather(
+            event.position, event.isoCountryCode);
         final weather = _createWeatherModel(weatherResponse);
         yield WeatherLoaded(weather: weather);
       } catch (_) {
@@ -31,8 +31,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     }
     if (event is RefreshWeather) {
       try {
-        final weatherResponse =
-            await weatherRepository.getWeather(event.position, event.isoCountryCode);
+        final weatherResponse = await weatherRepository.getWeather(
+            event.position, event.isoCountryCode);
         final weather = _createWeatherModel(weatherResponse);
         yield WeatherLoaded(weather: weather);
       } catch (_) {
@@ -46,8 +46,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         _createWeatherDataModel((response as DarkWeatherResponse)?.currently);
     final dailyForecast =
         _createDailyForecastModel((response as DarkWeatherResponse)?.daily);
-    final hourlyForecast = _createHourlyForecastModel((response as DarkWeatherResponse)?.hourly);
-    return Weather(current: currentWeather, dailyForecast: dailyForecast, hourlyForecast: hourlyForecast);
+    final hourlyForecast =
+        _createHourlyForecastModel((response as DarkWeatherResponse)?.hourly);
+    return Weather(
+        current: currentWeather,
+        dailyForecast: dailyForecast,
+        hourlyForecast: hourlyForecast);
   }
 
   DailyForecast _createDailyForecastModel(Daily daily) {
@@ -65,7 +69,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       hourlyReports.add(_createWeatherDataModel(obj));
     });
     return HourlyForecast(
-        summary: hourlyList.summary, icon: hourlyList.icon, hourlyForecast: hourlyReports);
+        summary: hourlyList.summary,
+        icon: hourlyList.icon,
+        hourlyForecast: hourlyReports);
   }
 
   WeatherData _createWeatherDataModel(WeatherObj weatherObj) {
@@ -86,23 +92,46 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         visibility: weatherObj?.uvIndex,
         windBearing: weatherObj?.windSpeed,
         windGust: weatherObj?.windGust,
-        windSpeed: weatherObj?.windSpeed);
+        windSpeed: weatherObj?.windSpeed,
+        maxTemperature: weatherObj?.temperatureMax,
+        minTemperature: weatherObj?.temperatureMin);
   }
 
-  WeatherCondition _mapWeatherCondition(String icon){
+  WeatherCondition _mapWeatherCondition(String icon) {
     WeatherCondition condition;
-    switch(icon){
-      case "clear-day": condition = WeatherCondition.clearDay; break;
-      case "clear-night": condition = WeatherCondition.clearNight; break;
-      case "rain": condition = WeatherCondition.rain; break;
-      case "snow": condition = WeatherCondition.snow; break;
-      case "sleet": condition = WeatherCondition.sleet; break;
-      case "wind": condition = WeatherCondition.wind; break;
-      case "fog": condition = WeatherCondition.fog; break;
-      case "cloudy": condition = WeatherCondition.cloudy; break;
-      case "partly-cloudy-day": condition = WeatherCondition.partlyCloudyDay; break;
-      case "partly-cloudy-night": condition = WeatherCondition.partlyCloudyNight; break;
-      default: condition = WeatherCondition.unknown;
+    switch (icon) {
+      case "clear-day":
+        condition = WeatherCondition.clearDay;
+        break;
+      case "clear-night":
+        condition = WeatherCondition.clearNight;
+        break;
+      case "rain":
+        condition = WeatherCondition.rain;
+        break;
+      case "snow":
+        condition = WeatherCondition.snow;
+        break;
+      case "sleet":
+        condition = WeatherCondition.sleet;
+        break;
+      case "wind":
+        condition = WeatherCondition.wind;
+        break;
+      case "fog":
+        condition = WeatherCondition.fog;
+        break;
+      case "cloudy":
+        condition = WeatherCondition.cloudy;
+        break;
+      case "partly-cloudy-day":
+        condition = WeatherCondition.partlyCloudyDay;
+        break;
+      case "partly-cloudy-night":
+        condition = WeatherCondition.partlyCloudyNight;
+        break;
+      default:
+        condition = WeatherCondition.unknown;
     }
     return condition;
   }

@@ -11,7 +11,7 @@ class Weather extends Equatable {
   List<Object> get props => [current];
 }
 
-enum WeatherCondition{
+enum WeatherCondition {
   snow,
   rain,
   sleet,
@@ -43,6 +43,8 @@ class WeatherData extends Equatable {
   double uvIndex;
   double visibility;
   double ozone;
+  double maxTemperature;
+  double minTemperature;
 
   WeatherData(
       {this.summary,
@@ -61,7 +63,9 @@ class WeatherData extends Equatable {
       this.temperature,
       this.precipProbability,
       this.precipIntensity,
-      this.time});
+      this.time,
+      this.maxTemperature,
+      this.minTemperature});
 
   @override
   List<Object> get props => [
@@ -81,7 +85,9 @@ class WeatherData extends Equatable {
         cloudCover,
         uvIndex,
         visibility,
-        ozone
+        ozone,
+        maxTemperature,
+        minTemperature
       ];
 }
 

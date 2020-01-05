@@ -11,10 +11,14 @@ import 'package:huracan/blocs/weather_bloc/weather_bloc.dart';
 import 'package:huracan/blocs/weather_bloc/weather_event.dart';
 import 'package:huracan/blocs/weather_bloc/weather_state.dart';
 import 'package:huracan/models/models.dart';
+import 'package:huracan/utils/chart_utils.dart';
+import 'package:huracan/utils/date_utils.dart';
 import 'package:huracan/views/custom_widget/custom_widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+
+import 'custom_widget/temperature_chart.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -51,8 +55,9 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     height: 5,
                   ),
-                  Flexible(flex: 3, child: _buildList()),
-                  Expanded(flex: 5, child: _buildText("Dati")),
+                  Flexible(flex: 3, child: _buildTodayList()),
+                  Flexible(flex: 2, child: _buildText("Settimana")),
+                  Flexible(flex: 3, child: _buildWeekList()),
                 ],
               ),
             ],
@@ -80,10 +85,13 @@ class _HomeState extends State<Home> {
         return BlocBuilder<WeatherBloc, WeatherState>(
             builder: (context, state) {
           if (state is WeatherEmpty) {
-            BlocProvider.of<WeatherBloc>(context).add(FetchWeather(
-                position: LatLng(
-                    longitude: position.longitude, latitude: position.latitude),
-                isoCountryCode: Localizations.localeOf(context).languageCode));
+            BlocProvider.of<WeatherBloc>(context).add(
+              FetchWeather(
+                  position: LatLng(
+                      longitude: position.longitude,
+                      latitude: position.latitude),
+                  isoCountryCode: "it"),
+            ); //todo Add internazionalization support //Localizations.localeOf(context).languageCode));
             return Center(child: CircularProgressIndicator());
           }
           if (state is WeatherLoading) {
@@ -151,14 +159,15 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          Flexible(
-                            flex: 3,
+                          Expanded(
+                            flex: 2,
                             child: Center(
                               child: WeatherIcon(
                                 width: _getWeatherIconWidth(
                                     MediaQuery.of(context).size.width),
                                 height: MediaQuery.of(context).size.height / 4,
                                 weatherCondition: condition,
+                                isAnimated: true,
                               ),
                             ),
                           ),
@@ -206,7 +215,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Widget _buildList() {
+  Widget _buildTodayList() {
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state) {
       if (state is WeatherLoaded) {
         final hourlyList = state.weather?.hourlyForecast?.hourlyForecast;
@@ -215,7 +224,9 @@ class _HomeState extends State<Home> {
             builder: (context, themeState) {
           return ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: hourlyList.length > upperBound ? upperBound : hourlyList.length,
+              itemCount: hourlyList.length > upperBound
+                  ? upperBound
+                  : hourlyList.length,
               itemBuilder: (context, index) {
                 final date = new DateTime.fromMillisecondsSinceEpoch(
                     hourlyList[index].time * 1000);
@@ -224,10 +235,45 @@ class _HomeState extends State<Home> {
                 return Card(
                   elevation: 0,
                   color: themeState.color[600],
-                  child: (index == hourlyList.length - 1 || index == upperBound -1)
+                  child: (index == hourlyList.length - 1 ||
+                          index == upperBound - 1)
                       ? _buildShowMoreCard()
                       : _buildHourlyCard(
                           temperature, hourlyList[index]?.condition, date),
+                );
+              });
+        });
+      }
+      return Center(child: CircularProgressIndicator());
+    });
+  }
+
+  Widget _buildWeekList() {
+    return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state) {
+      if (state is WeatherLoaded) {
+        final dailyList = state.weather?.dailyForecast?.dailyForecast;
+        const upperBound = 8;
+        return BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, themeState) {
+          return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount:
+                  dailyList.length > upperBound ? upperBound : dailyList.length,
+              itemBuilder: (context, index) {
+                final maxTemperature = dailyList[index]?.maxTemperature?.round();
+                final minTemperature = dailyList[index]?.maxTemperature?.round();
+                return Card(
+                  elevation: 0,
+                  color: themeState.color[600],
+                  child:
+                      (index == dailyList.length - 1 || index == upperBound - 1)
+                          ? _buildShowMoreCard()
+                          : _buildWeeklyCard(
+                              minTemperature.toString(),
+                              maxTemperature.toString(),
+                              dailyList[index]?.condition,
+                              DateUtils.getDayFromMillis(dailyList[index].time)
+                                  .toString()),
                 );
               });
         });
@@ -265,28 +311,74 @@ class _HomeState extends State<Home> {
   Widget _buildHourlyCard(
       String temperature, WeatherCondition condition, DateTime date) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(4),
       child: Column(
         children: <Widget>[
-          Flexible(
-              flex: 2,
+          Expanded(
+              flex: 1,
               child: Text(
                 date.hour.toString(),
-                style: TextStyle(color: Colors.white, fontSize: 18.0),
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
               )),
           Flexible(
-              flex: 5,
+            flex: 2,
+            child: Padding(
+              padding: EdgeInsets.all(8),
               child: WeatherIcon(
+                isAnimated: false,
                 weatherCondition: condition,
-                width: 50,
-                height: 50,
-              )),
+              ),
+            ),
+          ),
           Expanded(
-            flex: 3,
+            flex: 1,
             child: Text(
               "$temperature °C",
               style: TextStyle(
-                  fontSize: 18, color: Colors.white, fontFamily: 'Montserrat'),
+                  fontSize: 16, color: Colors.white, fontFamily: 'Montserrat'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWeeklyCard(
+      String min, String max, WeatherCondition condition, String day) {
+    return Container(
+      padding: EdgeInsets.all(4),
+      child: Column(
+        children: <Widget>[
+          Expanded(
+              flex: 2,
+              child: Text(
+                day,
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
+              )),
+          Flexible(
+            flex: 3,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: WeatherIcon(
+                isAnimated: false,
+                weatherCondition: condition,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(
+              "$max °C",
+              style: TextStyle(
+                  fontSize: 12, color: Colors.white, fontFamily: 'Montserrat'),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(
+              "$min °C",
+              style: TextStyle(
+                  fontSize: 12, color: Colors.white, fontFamily: 'Montserrat'),
             ),
           ),
         ],
@@ -296,7 +388,7 @@ class _HomeState extends State<Home> {
 
   Widget _buildText(String text) {
     return Padding(
-      padding: EdgeInsets.only(left: 5),
+      padding: EdgeInsets.all(10),
       child: Text(
         text,
         overflow: TextOverflow.ellipsis,

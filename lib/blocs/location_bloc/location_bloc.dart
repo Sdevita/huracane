@@ -13,8 +13,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       yield LocationLoading();
       try {
         final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-        final lastKnownPosition = await geolocator.getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
-        final position = lastKnownPosition ?? await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        final position =  await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
         final place = await geolocator.placemarkFromPosition(position);
         LocationState state = place.isNotEmpty
             ? LocationLoaded(position: position, place: place[0].locality + ", "+ place[0].country, isoCountryCode: place[0].isoCountryCode)
